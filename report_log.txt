@@ -1,0 +1,5 @@
+[2025-10-08 16:33:32] Cam 0 | Lưu: recordings/video_20251008_163326.avi | Thời lượng: 3 giây
+[2025-10-11 22:26:24] Cam 0 | Lưu: recordings/video_20251011_222612.avi | Thời lượng: 10 giây | không nhận diện
+[2025-10-11 22:26:51] Cam 0 | Lưu: recordings/video_20251011_222640.avi | Thời lượng: 9 giây | có nhận diện
+[2025-10-15 21:11:32] Cam 0 | Lưu: recordings/video_20251015_211121.avi | Thời lượng: 10 giây | không nhận diện
+[2025-10-15 21:17:16] Cam 0 | Lưu: recordings/video_20251015_211700.avi | Thời lượng: 13 giây | có nhận diện
