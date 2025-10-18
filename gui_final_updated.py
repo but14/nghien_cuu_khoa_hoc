@@ -1,11 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
-"""
-Pastel Camera Recorder (Refactored)
-Giữ nguyên chức năng của bản gốc, nhưng mã được tách thành các phần rõ ràng hơn,
-sửa lỗi indentation, thêm logging nhẹ, và cải thiện xử lý lỗi khi load model / camera.
-"""
 
 import os
 import sys
@@ -20,8 +13,6 @@ import tkinter as tk
 from tkinter import messagebox, BooleanVar
 from PIL import Image, ImageTk
 
-# Lưu ý: torch / ultralytics / torchvision chỉ cần import khi có trong môi trường.
-# Chúng sẽ được import động trong các phương thức tương ứng.
 
 LOG = logging.getLogger("PastelCameraApp")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -71,22 +62,20 @@ class PastelCameraApp:
         self.last_student_time = 0.0
         self.student_cooldown = 2.0
 
-        # Student name list (placeholder; thay đổi khi train model có tên)
+        
         self.student_names = [f"Học sinh {i+1}" for i in range(10)]
 
-        # Kiểm tra dependencies & load models (không crash app nếu thiếu)
+        
         self._check_dependencies_and_load_models()
 
         # Build UI
         self._build_ui()
 
-        # Start camera update loop
+        
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
         self.update_camera()
 
-    # -------------------------
-    # Utilities
-    # -------------------------
+   
     @staticmethod
     def resource_path(relative_path: str) -> str:
         """Lấy đường dẫn tuyệt đối đến tài nguyên (hỗ trợ PyInstaller)."""
@@ -96,9 +85,6 @@ class PastelCameraApp:
             base_path = os.path.abspath(".")
         return os.path.join(base_path, relative_path)
 
-    # -------------------------
-    # Dependency & model loading
-    # -------------------------
     def _check_dependencies_and_load_models(self):
         """Kiểm tra thư viện cần thiết và cố gắng tải mô hình (nếu có)."""
         # Kiểm tra torch + ultralytics (không raise, chỉ cảnh báo và disable features)
@@ -112,13 +98,13 @@ class PastelCameraApp:
                 "Bạn có thể cài:\n\npip install torch ultralytics\n\n"
                 "Các tính năng nhận diện sẽ bị tắt nếu thiếu."
             )
-            # Nếu thiếu, tắt chế độ nhận diện
+           
             if not self.torch_available:
                 self.student_detection_enabled.set(False)
             if not (self.torch_available and self.ultralytics_available):
                 self.detection_enabled.set(False)
 
-        # Thử load mô hình hành vi / học sinh (không bắt buộc phải thành công)
+        
         if self.detection_enabled.get():
             self.load_model()
         if self.student_detection_enabled.get():
@@ -144,7 +130,7 @@ class PastelCameraApp:
             self.detection_enabled.set(False)
             return False
 
-        # Hiển thị popup nhỏ trong UI khi load (nếu root đã sẵn sàng)
+        
         loading = None
         try:
             loading = tk.Toplevel(self.root)
@@ -154,7 +140,7 @@ class PastelCameraApp:
             tk.Label(loading, text="Đang tải mô hình hành vi...\nVui lòng đợi...", font=("Arial", 11)).pack(pady=20)
             loading.update()
 
-            # Thử YOLOv8 (ultralytics)
+           
             if self.ultralytics_available:
                 try:
                     from ultralytics import YOLO  # local import
@@ -164,12 +150,12 @@ class PastelCameraApp:
                 except Exception as e:
                     LOG.warning("Không thể load YOLOv8: %s", e)
 
-            # Fallback: torch.hub yolov5
+            
             if self.torch_available:
                 try:
                     import torch
                     self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.model_path, verbose=False)
-                    # đặt confidence mặc định nếu có
+                   
                     try:
                         self.model.conf = 0.45
                     except Exception:
@@ -207,12 +193,12 @@ class PastelCameraApp:
             tk.Label(loading, text="Đang tải mô hình học sinh...\nVui lòng đợi...", font=("Arial", 11)).pack(pady=20)
             loading.update()
 
-            # Thử load như ResNet (torch)
+            
             try:
                 import torch
                 import torchvision.models as models
 
-                # Lưu ý: bạn phải set đúng num_classes & tên lớp tương ứng với model đã train
+                
                 num_classes = max(10, len(self.student_names))
                 model = models.resnet18(pretrained=False)
                 model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
@@ -225,7 +211,7 @@ class PastelCameraApp:
             except Exception as e:
                 LOG.warning("Không thể load student model dưới dạng ResNet: %s", e)
 
-            # Fallback YOLO (ultralytics or yolov5)
+            
             if self.ultralytics_available:
                 try:
                     from ultralytics import YOLO
@@ -250,12 +236,11 @@ class PastelCameraApp:
             if loading:
                 loading.destroy()
 
-    # -------------------------
-    # UI Building
-    # -------------------------
+    
+  
     def _build_ui(self):
         """Tạo UI chính (2 màn: chọn nguồn & main)."""
-        # --- Select frame ---
+      
         self.select_frame = tk.Frame(self.root, bg="#f2e9e4")
         self.select_frame.pack(fill="both", expand=True)
 
@@ -351,9 +336,7 @@ class PastelCameraApp:
         except Exception:
             return None
 
-    # -------------------------
-    # Camera control
-    # -------------------------
+    
     def init_camera(self, index: int) -> bool:
         """Khởi tạo camera - trả về True nếu thành công."""
         try:
@@ -418,9 +401,7 @@ class PastelCameraApp:
         self.select_frame.pack_forget()
         self.main_frame.pack(fill="both", expand=True)
 
-    # -------------------------
-    # Detection pipeline
-    # -------------------------
+   
     def detect_face(self, frame: np.ndarray) -> Tuple[Optional[np.ndarray], Optional[Tuple[int, int, int, int]]]:
         """Dùng Haar Cascade để detect khuôn mặt, trả về (face_img, bbox) hoặc (None, None)."""
         try:
@@ -465,7 +446,7 @@ class PastelCameraApp:
             return self.current_student  # return cached
 
         try:
-            # Nếu student_model là một model torch classification (ResNet)
+    
             if "ResNet" in str(type(self.student_model)):
                 face_img, bbox = self.detect_face(frame)
                 if face_img is None:
@@ -494,7 +475,7 @@ class PastelCameraApp:
                         return name
                     return None
             else:
-                # Giả sử student_model là YOLO-like (ultralytics or yolov5)
+               
                 results = self.student_model(frame)
                 # xử lý YOLOv8
                 if "ultralytics.engine.results.Results" in str(type(results)):
@@ -562,7 +543,7 @@ class PastelCameraApp:
                                 label = f"{self.current_student}: {behavior_name}"
                                 cv2.putText(annotated_frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
             else:
-                # YOLOv5 or renderable results
+                
                 if hasattr(results, "render"):
                     annotated_frame = results.render()[0]
                     # lấy detections từ results.pred nếu có
@@ -575,7 +556,7 @@ class PastelCameraApp:
                                     behavior_name = results.names[cls_id]
                                     detected_behaviors.append(behavior_name)
                 else:
-                    # Generic list-like handling (robust)
+                    
                     annotated_frame = frame.copy()
                     if isinstance(results, list) and len(results) > 0:
                         for det in results:
@@ -593,7 +574,7 @@ class PastelCameraApp:
                                         label = f"{self.current_student}: {label}"
                                     cv2.putText(annotated_frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-            # Update counts (throttled by detection_cooldown)
+          
             now = time.time()
             if self.counting and detected_behaviors and (now - self.last_detected_time > self.detection_cooldown):
                 for behavior in detected_behaviors:
@@ -606,7 +587,7 @@ class PastelCameraApp:
                         self.last_detected_time = now
                         self.update_count_display()
 
-            # Vẽ info student + current behavior
+            
             if annotated_frame is None:
                 annotated_frame = frame.copy()
 
@@ -623,9 +604,7 @@ class PastelCameraApp:
             LOG.exception("Lỗi detect_objects_and_count: %s", e)
             return frame
 
-    # -------------------------
-    # UI actions: toggle
-    # -------------------------
+ 
     def toggle_detection(self):
         if self.detection_enabled.get():
             if not (self.torch_available or self.ultralytics_available):
@@ -653,9 +632,7 @@ class PastelCameraApp:
             self.current_student = None
             messagebox.showinfo("Thông báo", "Đã tắt nhận diện học sinh.")
 
-    # -------------------------
-    # Counting control
-    # -------------------------
+ 
     def start_counting(self):
         if not (self.cap and getattr(self.cap, "isOpened", lambda: False)()):
             messagebox.showerror("Lỗi", "Chưa có camera nào đang mở.")
@@ -667,7 +644,7 @@ class PastelCameraApp:
             messagebox.showinfo("Thông báo", "Đã đang đếm.")
             return
 
-        # Reset counters
+        
         self.behavior_counts = Counter()
         self.student_behavior_counts = defaultdict(Counter)
         self.current_behaviors = {}
@@ -702,9 +679,7 @@ class PastelCameraApp:
         self.show_behavior_report()
         self.save_behavior_report()
 
-    # -------------------------
-    # Reporting
-    # -------------------------
+  
     def update_count_display(self):
         """Cập nhật label bên UI hiển thị kết quả đếm hiện tại."""
         if not self.counting:
@@ -814,7 +789,7 @@ class PastelCameraApp:
                              bg="#ffffff", activebackground="#fde2e4", relief="raised", bd=2, font=("Arial", 12, "bold"), cursor="hand2")
         save_btn.pack(pady=6)
 
-        # Export to Excel nếu pandas có sẵn
+        
         try:
             import pandas as pd  # noqa: F401
             excel_btn = tk.Button(report_window, text="Xuất Excel", command=self.export_excel_report,
@@ -851,9 +826,7 @@ class PastelCameraApp:
             LOG.exception("Lỗi export_excel_report: %s", e)
             messagebox.showerror("Lỗi", f"Không thể xuất Excel: {e}")
 
-    # -------------------------
-    # Main loop: camera frame update
-    # -------------------------
+    
     def update_camera(self):
         """Hàm được gọi định kỳ để đọc frame từ camera và hiển thị."""
         try:
@@ -908,7 +881,7 @@ class PastelCameraApp:
                         status += f" ({', '.join(parts)})" if parts else " – sẵn sàng đếm hành vi."
                     self.info_label.config(text=status)
                 else:
-                    # nếu không đọc được frame, show empty
+                    
                     self.video_label.configure(image="")
         except Exception:
             LOG.exception("Lỗi update_camera")
@@ -916,9 +889,7 @@ class PastelCameraApp:
             # call again after ~30 ms (~33 fps)
             self.root.after(30, self.update_camera)
 
-    # -------------------------
-    # Close / cleanup
-    # -------------------------
+   
     def on_close(self):
         if self.counting:
             if not messagebox.askyesno("Đang đếm", "Đang đếm hành vi. Muốn dừng và thoát?"):
@@ -938,10 +909,6 @@ class PastelCameraApp:
         except Exception:
             pass
 
-
-# -------------------------
-# Main
-# -------------------------
 if __name__ == "__main__":
     root = tk.Tk()
     app = PastelCameraApp(root)

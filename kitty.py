@@ -44,7 +44,7 @@ class PastelCameraApp:
         )
         self.lbl_status.pack(padx=10, pady=10, fill="both", expand=True)
 
-        # === Hàm tải icon an toàn ===
+        
         def load_icon(name):
             try:
                 return ImageTk.PhotoImage(Image.open(name).resize((52, 52)))
@@ -52,32 +52,29 @@ class PastelCameraApp:
                 img = Image.new("RGB", (52, 52), color=self.btn_color)
                 return ImageTk.PhotoImage(img)
 
-        # === Tải icon (PNG hoặc JPG đều được) ===
+        
         self.start_icon = load_icon("start.png")
         self.stop_icon = load_icon("stop.png")
         self.report_icon = load_icon("report.png")
 
-        # === Tạo nút có hiệu ứng hover ===
         self.create_hover_button(self.frame_controls, self.start_icon, "Bắt đầu", self.start_recording)
         self.create_hover_button(self.frame_controls, self.stop_icon, "Dừng", self.stop_recording)
         self.create_hover_button(self.frame_controls, self.report_icon, "Xuất Báo Cáo", self.export_report)
 
-        # === Biến camera ===
+        
         self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         if not self.cap.isOpened():
             self.lbl_status.config(text="❌ Không mở được camera. Kiểm tra thiết bị.")
             return
 
-        self.recording = Falsez
+        self.recording = False
         self.start_time = 0
         self.video_writer = None
 
-        # Gọi hàm cập nhật sau 0.5s để camera sẵn sàng
+        
         self.root.after(500, self.update_camera)
 
-    # ========================== #
-    #     CÁC HÀM CHỨC NĂNG     #
-    # ========================== #
+    
 
     def create_hover_button(self, parent, icon, text, command):
         frame = tk.Frame(parent, bg=self.panel_color)
