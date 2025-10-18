@@ -1,0 +1,12 @@
+BÁO CÁO HÀNH VI - 2025-10-18 10:16:21
+Thời gian đếm: 32 giây
+Camera: 0
+
+Số lần xuất hiện của các hành vi:
+- Nhin_bang: 11 lần
+- Viet_bai: 2 lần
+- Gio_tay_phat_bieu: 4 lần
+- Doc_tai_lieu: 2 lần
+- Su_dung_dien_thoai: 3 lần
+- Su_dung_may_tinh_cam_tay: 3 lần
+- Nam_guc_tren_ban: 2 lần
