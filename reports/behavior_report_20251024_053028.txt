@@ -1,0 +1,22 @@
+BÁO CÁO HÀNH VI - 2025-10-24 05:30:28
+Thời gian đếm: 9 giây
+Camera: 0
+
+BÁO CÁO THEO HỌC SINH:
+=====================
+
+Học sinh: Học sinh 28
+  - Cui_xuong: 3 lần
+  - Doc_tai_lieu: 3 lần
+  - Nam_guc_tren_ban: 1 lần
+  - Su_dung_dien_thoai: 2 lần
+
+
+TỔNG HỢP TẤT CẢ HÀNH VI:
+=====================
+
+Số lần xuất hiện của các hành vi:
+- Cui_xuong: 3 lần
+- Doc_tai_lieu: 3 lần
+- Nam_guc_tren_ban: 1 lần
+- Su_dung_dien_thoai: 2 lần

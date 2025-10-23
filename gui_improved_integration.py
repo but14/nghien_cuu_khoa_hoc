@@ -15,7 +15,6 @@ from PIL import Image, ImageTk
 LOG = logging.getLogger("PastelCameraApp")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
-
 class PastelCameraApp:
     """Ứng dụng ghi video + nhận diện hành vi & học sinh (refactored)."""
 

@@ -1,0 +1,16 @@
+BÁO CÁO HÀNH VI - 2025-10-24 05:13:58
+Thời gian đếm: 6 giây
+Camera: 0
+
+BÁO CÁO THEO HỌC SINH:
+=====================
+
+Học sinh: (None, None, 0.0)
+  Không phát hiện hành vi nào.
+
+
+TỔNG HỢP TẤT CẢ HÀNH VI:
+=====================
+
+Số lần xuất hiện của các hành vi:
+Không phát hiện hành vi nào trong thời gian đếm.

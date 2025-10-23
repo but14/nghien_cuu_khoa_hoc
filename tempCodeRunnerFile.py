@@ -61,7 +61,7 @@ class PastelCameraApp:
         self.student_cooldown = 2.0
 
         
-        self.student_names = [f"Học sinh {i+1}" for i in range(32)]
+        self.student_names = [f"Học sinh {i+1}" for i in range(10)]
 
         
         self._check_dependencies_and_load_models()
@@ -201,8 +201,7 @@ class PastelCameraApp:
                 model = models.resnet18(pretrained=False)
                 model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
                 state = torch.load(self.student_model_path, map_location=torch.device("cpu"))
-            # SỬA Ở ĐÂY:
-                model.load_state_dict(state['model_state_dict'])
+                model.load_state_dict(state)
                 model.eval()
                 self.student_model = model
                 LOG.info("Đã tải student model dạng ResNet từ %s", self.student_model_path)
@@ -211,22 +210,22 @@ class PastelCameraApp:
                 LOG.warning("Không thể load student model dưới dạng ResNet: %s", e)
 
             
-            # if self.ultralytics_available:
-            #     try:
-            #         from ultralytics import YOLO
-            #         self.student_model = YOLO(self.student_model_path)
-            #         LOG.info("Đã tải student model (YOLOv8) từ %s", self.student_model_path)
-            #         return True
-            #     except Exception as e:
-            #         LOG.warning("Không thể load student YOLOv8: %s", e)
-            # if self.torch_available:
-            #     try:
-            #         import torch
-            #         self.student_model = torch.hub.load("ultralytics/yolov5", "custom", path=self.student_model_path, verbose=False)
-            #         LOG.info("Đã tải student model (YOLOv5) từ %s", self.student_model_path)
-            #         return True
-            #     except Exception as e:
-            #         LOG.warning("Không thể load student YOLOv5: %s", e)
+            if self.ultralytics_available:
+                try:
+                    from ultralytics import YOLO
+                    self.student_model = YOLO(self.student_model_path)
+                    LOG.info("Đã tải student model (YOLOv8) từ %s", self.student_model_path)
+                    return True
+                except Exception as e:
+                    LOG.warning("Không thể load student YOLOv8: %s", e)
+            if self.torch_available:
+                try:
+                    import torch
+                    self.student_model = torch.hub.load("ultralytics/yolov5", "custom", path=self.student_model_path, verbose=False)
+                    LOG.info("Đã tải student model (YOLOv5) từ %s", self.student_model_path)
+                    return True
+                except Exception as e:
+                    LOG.warning("Không thể load student YOLOv5: %s", e)
 
             messagebox.showwarning("Cảnh báo", "Không thể tải mô hình học sinh. Tính năng nhận diện học sinh sẽ bị tắt.")
             self.student_detection_enabled.set(False)
