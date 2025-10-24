@@ -1,0 +1,17 @@
+BÁO CÁO HÀNH VI - 2025-10-24 13:50:51
+T.gian đếm: 7s
+Camera: 0
+
+THEO HỌC SINH:
+=====================
+
+Học sinh: TRAM_ANH
+   - Gio_tay_phat_bieu: 1 lần
+   - Nhin_bang: 2 lần
+
+
+TỔNG HỢP (ĐÃ NHẬN DIỆN HS):
+=====================
+
+- Gio_tay_phat_bieu: 1 lần
+- Nhin_bang: 2 lần

@@ -1,0 +1,29 @@
+BÁO CÁO HÀNH VI - 2025-10-24 12:34:44
+Thời gian đếm: 43 giây
+Camera: 0
+
+BÁO CÁO THEO HỌC SINH:
+=====================
+
+Học sinh: Học sinh 2
+  Không phát hiện hành vi nào.
+
+Học sinh: Học sinh 21
+  - Cui_xuong: 1 lần
+  - Doc_tai_lieu: 4 lần
+  - Gio_tay_phat_bieu: 3 lần
+  - Nhin_bang: 9 lần
+
+Học sinh: Học sinh 27
+  - Doc_tai_lieu: 1 lần
+  - Nhin_bang: 1 lần
+
+
+TỔNG HỢP TẤT CẢ HÀNH VI:
+=====================
+
+Số lần xuất hiện của các hành vi:
+- Cui_xuong: 1 lần
+- Doc_tai_lieu: 5 lần
+- Gio_tay_phat_bieu: 3 lần
+- Nhin_bang: 10 lần

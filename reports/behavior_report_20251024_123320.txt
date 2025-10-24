@@ -1,0 +1,16 @@
+BÁO CÁO HÀNH VI - 2025-10-24 12:33:20
+Thời gian đếm: 7 giây
+Camera: 0
+
+BÁO CÁO THEO HỌC SINH:
+=====================
+
+Học sinh: Học sinh 21
+  - Nhin_bang: 1 lần
+
+
+TỔNG HỢP TẤT CẢ HÀNH VI:
+=====================
+
+Số lần xuất hiện của các hành vi:
+- Nhin_bang: 1 lần
